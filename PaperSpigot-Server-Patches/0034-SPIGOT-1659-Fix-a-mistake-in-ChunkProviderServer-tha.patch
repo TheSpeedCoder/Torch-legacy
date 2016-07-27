@@ -1,4 +1,4 @@
-From 77e57920223491edda40829ebdbfddd415f1a525 Mon Sep 17 00:00:00 2001
+From e4d598d97f5f07b687b6ea0f443a33c5e0c9905f Mon Sep 17 00:00:00 2001
 From: SotrForgotten <i@omc.hk>
 Date: Wed, 27 Jul 2016 23:45:10 +0800
 Subject: [PATCH] SPIGOT-1659: Fix a mistake in ChunkProviderServer that

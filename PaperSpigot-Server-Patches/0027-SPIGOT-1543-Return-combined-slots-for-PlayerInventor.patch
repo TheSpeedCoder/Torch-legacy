@@ -1,4 +1,4 @@
-From 7232d3a938489f274eca54b15db5ddbaa190f02d Mon Sep 17 00:00:00 2001
+From 4686b52d43d3d7c145a9de8aec0f37e818ed582d Mon Sep 17 00:00:00 2001
 From: SotrForgotten <i@omc.hk>
 Date: Wed, 27 Jul 2016 23:36:12 +0800
 Subject: [PATCH] SPIGOT-1543: Return combined slots for
