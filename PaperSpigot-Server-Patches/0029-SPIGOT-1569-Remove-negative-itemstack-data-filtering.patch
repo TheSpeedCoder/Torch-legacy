@@ -1,0 +1,22 @@
+From 4d8e6b9a8d1907338132b26c5913d5f2b539cf52 Mon Sep 17 00:00:00 2001
+From: SotrForgotten <i@omc.hk>
+Date: Wed, 27 Jul 2016 23:38:18 +0800
+Subject: [PATCH] SPIGOT-1569: Remove negative itemstack data filtering
+
+
+diff --git a/src/main/java/net/minecraft/server/ItemStack.java b/src/main/java/net/minecraft/server/ItemStack.java
+index 015ce28..9a05e9d 100644
+--- a/src/main/java/net/minecraft/server/ItemStack.java
++++ b/src/main/java/net/minecraft/server/ItemStack.java
+@@ -341,7 +341,7 @@ public final class ItemStack {
+         // CraftBukkit end
+         this.damage = i;
+         if (this.damage < -1) { // CraftBukkit
+-            this.damage = 0;
++            // this.damage = 0; // CraftBukkit - remove this.
+         }
+ 
+     }
+-- 
+2.8.2.windows.1
+

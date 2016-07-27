@@ -1,0 +1,80 @@
+From 2b096e4f0d55fdeb6039c86f89b4ad4f23a462df Mon Sep 17 00:00:00 2001
+From: SotrForgotten <i@omc.hk>
+Date: Wed, 27 Jul 2016 23:57:33 +0800
+Subject: [PATCH] SPIGOT-1626 / MC-98994: Fix slow chunk performance
+
+
+diff --git a/src/main/java/net/minecraft/server/ChunkProviderServer.java b/src/main/java/net/minecraft/server/ChunkProviderServer.java
+index 3e35c3d..28fd530 100644
+--- a/src/main/java/net/minecraft/server/ChunkProviderServer.java
++++ b/src/main/java/net/minecraft/server/ChunkProviderServer.java
+@@ -113,6 +113,11 @@ public class ChunkProviderServer implements IChunkProvider {
+     }
+ 
+     // CraftBukkit start - Add async variant, provide compatibility
++	public Chunk getOrCreateChunkFast(int x, int z) {
++        Chunk chunk = chunks.get(LongHash.toLong(x, z));
++        return (chunk == null) ? getChunkAt(x, z) : chunk;
++    }
++	
+     public Chunk getChunkIfLoaded(int x, int z) {
+         return chunks.get(LongHash.toLong(x, z));
+     }
+diff --git a/src/main/java/net/minecraft/server/IChunkProvider.java b/src/main/java/net/minecraft/server/IChunkProvider.java
+new file mode 100644
+index 0000000..07b7216
+--- /dev/null
++++ b/src/main/java/net/minecraft/server/IChunkProvider.java
+@@ -0,0 +1,36 @@
++package net.minecraft.server;
++
++import java.util.List;
++
++public interface IChunkProvider {
++
++    boolean isChunkLoaded(int i, int j);
++
++    Chunk getOrCreateChunk(int i, int j);
++
++    Chunk getChunkAt(BlockPosition blockposition);
++
++    void getChunkAt(IChunkProvider ichunkprovider, int i, int j);
++
++    boolean a(IChunkProvider ichunkprovider, Chunk chunk, int i, int j);
++
++    boolean saveChunks(boolean flag, IProgressUpdate iprogressupdate);
++
++    boolean unloadChunks();
++
++    boolean canSave();
++
++    String getName();
++	
++	Chunk getOrCreateChunkFast(int x, int z); // CraftBukkit
++
++    List<BiomeBase.BiomeMeta> getMobsFor(EnumCreatureType enumcreaturetype, BlockPosition blockposition);
++
++    BlockPosition findNearestMapFeature(World world, String s, BlockPosition blockposition);
++
++    int getLoadedChunks();
++
++    void recreateStructures(Chunk chunk, int i, int j);
++
++    void c();
++}
+diff --git a/src/main/java/net/minecraft/server/World.java b/src/main/java/net/minecraft/server/World.java
+index 22e39bd..11ed5e4 100644
+--- a/src/main/java/net/minecraft/server/World.java
++++ b/src/main/java/net/minecraft/server/World.java
+@@ -356,7 +356,7 @@ public abstract class World implements IBlockAccess {
+     }
+ 
+     public Chunk getChunkAt(int i, int j) {
+-        return this.chunkProvider.getOrCreateChunk(i, j);
++        return this.chunkProvider.getOrCreateChunkFast(i, j); // CraftBukkit
+     }
+ 
+     public boolean setTypeAndData(BlockPosition blockposition, IBlockData iblockdata, int i) {
+-- 
+2.8.2.windows.1
+

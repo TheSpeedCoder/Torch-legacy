@@ -1,0 +1,39 @@
+From 5f36414dfd434bc709dd8698d6a35c2d75b57cc0 Mon Sep 17 00:00:00 2001
+From: SotrForgotten <i@omc.hk>
+Date: Wed, 27 Jul 2016 23:50:04 +0800
+Subject: [PATCH] Do not round the location of playSound to the center of a
+ block
+
+
+diff --git a/src/main/java/net/minecraft/server/PlayerConnection.java b/src/main/java/net/minecraft/server/PlayerConnection.java
+index 6ac46b8..57a0543 100644
+--- a/src/main/java/net/minecraft/server/PlayerConnection.java
++++ b/src/main/java/net/minecraft/server/PlayerConnection.java
+@@ -226,6 +226,9 @@ public class PlayerConnection implements PacketListenerPlayIn, IUpdatePlayerList
+                     }
+                 }
+                 // CraftBukkit start - fire PlayerMoveEvent
++				// Rest to old location first
++                this.player.setLocation(prevX, prevY, prevZ, prevYaw, prevPitch);
++				
+                 Player player = this.getPlayer();
+                 // Spigot Start
+                 if ( !hasMoved )
+@@ -427,6 +430,14 @@ public class PlayerConnection implements PacketListenerPlayIn, IUpdatePlayerList
+                         flag1 = true;
+                         PlayerConnection.c.warn(this.player.getName() + " moved wrongly!");
+                     }
++					
++					// CraftBukkit - Make sure the move is valid but then reset it for plugins to modify
++                        double prevX = player.locX;
++                        double prevY = player.locY;
++                        double prevZ = player.locZ;
++                        float prevYaw = player.yaw;
++                        float prevPitch = player.pitch;
++                    // CraftBukkit end
+ 
+                     this.player.setLocation(d7, d8, d9, f2, f3);
+                     this.player.checkMovement(this.player.locX - d0, this.player.locY - d1, this.player.locZ - d2);
+-- 
+2.8.2.windows.1
+

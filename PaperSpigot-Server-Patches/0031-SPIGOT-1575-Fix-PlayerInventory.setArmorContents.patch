@@ -1,0 +1,22 @@
+From b2efb24618865d9ebb1fb0313ca63b7ac5245507 Mon Sep 17 00:00:00 2001
+From: SotrForgotten <i@omc.hk>
+Date: Wed, 27 Jul 2016 23:39:55 +0800
+Subject: [PATCH] SPIGOT-1575: Fix PlayerInventory.setArmorContents
+
+
+diff --git a/src/main/java/org/bukkit/craftbukkit/inventory/CraftInventoryPlayer.java b/src/main/java/org/bukkit/craftbukkit/inventory/CraftInventoryPlayer.java
+index dba8d5b..566ac13 100644
+--- a/src/main/java/org/bukkit/craftbukkit/inventory/CraftInventoryPlayer.java
++++ b/src/main/java/org/bukkit/craftbukkit/inventory/CraftInventoryPlayer.java
+@@ -128,7 +128,7 @@ public class CraftInventoryPlayer extends CraftInventory implements org.bukkit.i
+     }
+ 
+     public void setArmorContents(ItemStack[] items) {
+-        int cnt = getSize();
++        int cnt = getInventory().items.length;
+ 
+         if (items == null) {
+             items = new ItemStack[4];
+-- 
+2.8.2.windows.1
+

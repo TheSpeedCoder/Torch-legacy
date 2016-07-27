@@ -1,0 +1,37 @@
+From 2ca747311a23f10bdaeabd6e29c49002a57a1a23 Mon Sep 17 00:00:00 2001
+From: SotrForgotten <i@omc.hk>
+Date: Wed, 27 Jul 2016 23:37:37 +0800
+Subject: [PATCH] SPIGOT-1567: Rework setItems to set slots correctly
+ regardless of array reference.
+
+
+diff --git a/src/main/java/org/bukkit/craftbukkit/inventory/CraftInventory.java b/src/main/java/org/bukkit/craftbukkit/inventory/CraftInventory.java
+index e9a3c50..9e92aa2 100644
+--- a/src/main/java/org/bukkit/craftbukkit/inventory/CraftInventory.java
++++ b/src/main/java/org/bukkit/craftbukkit/inventory/CraftInventory.java
+@@ -60,17 +60,15 @@ public class CraftInventory implements Inventory {
+     }
+ 
+     public void setContents(ItemStack[] items) {
+-        if (getInventory().getContents().length < items.length) {
+-            throw new IllegalArgumentException("Invalid inventory size; expected " + getInventory().getContents().length + " or less");
++        if (getSize() < items.length) {
++            throw new IllegalArgumentException("Invalid inventory size; expected " + getSize() + " or less");
+         }
+ 
+-        net.minecraft.server.ItemStack[] mcItems = getInventory().getContents();
+-
+-        for (int i = 0; i < mcItems.length; i++) {
++        for (int i = 0; i < getSize(); i++) {
+             if (i >= items.length) {
+-                mcItems[i] = null;
++                setItem(i, null);
+             } else {
+-                mcItems[i] = CraftItemStack.asNMSCopy(items[i]);
++                setItem(i, items[i]);
+             }
+         }
+     }
+-- 
+2.8.2.windows.1
+

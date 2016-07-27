@@ -1,0 +1,28 @@
+From 246720af596f9a4af4f1bdb962ccef4e08e48588 Mon Sep 17 00:00:00 2001
+From: SotrForgotten <i@omc.hk>
+Date: Wed, 27 Jul 2016 21:06:43 +0800
+Subject: [PATCH] Fix Torch version
+
+
+diff --git a/pom.xml b/pom.xml
+index b61d116..da33b4d 100644
+--- a/pom.xml
++++ b/pom.xml
+@@ -11,11 +11,11 @@
+ 
+     <groupId>net.techcable.tacospigot</groupId>
+     <artifactId>api</artifactId>
+-    <version>1.8.8-R0.2-SNAPSHOT</version>
++    <version>1.8.8-R0.1</version>
+     <packaging>jar</packaging>
+ 
+-    <name>TacoSpigot-API</name>
+-    <url>https://github.com/TacoSpigot</url>
++    <name>Torch-API</name>
++    <url>https://github.com/TorchSpigot/Torch</url>
+     <description>An enhanced plugin API for Minecraft servers.</description>
+ 
+     <properties>
+-- 
+2.8.2.windows.1
+

@@ -1,0 +1,23 @@
+From 9610ae800244400181ba88d63ed3e2cc209feac2 Mon Sep 17 00:00:00 2001
+From: SotrForgotten <i@omc.hk>
+Date: Wed, 27 Jul 2016 23:40:40 +0800
+Subject: [PATCH] SPIGOT-1610: Treat clicking on an inventory window as
+ clicking outside it
+
+
+diff --git a/src/main/java/org/bukkit/craftbukkit/inventory/CraftInventoryView.java b/src/main/java/org/bukkit/craftbukkit/inventory/CraftInventoryView.java
+index ae47a0e..da0a941 100644
+--- a/src/main/java/org/bukkit/craftbukkit/inventory/CraftInventoryView.java
++++ b/src/main/java/org/bukkit/craftbukkit/inventory/CraftInventoryView.java
+@@ -59,7 +59,7 @@ public class CraftInventoryView extends InventoryView {
+ 
+     @Override
+     public ItemStack getItem(int slot) {
+-        if (slot == -999) {
++        if (slot == -999 || slot == -1) {
+             return null;
+         }
+         return CraftItemStack.asCraftMirror(container.getSlot(slot).getItem());
+-- 
+2.8.2.windows.1
+

@@ -1,0 +1,26 @@
+From f350166722afd933a50899fa6c51a8bf31a79630 Mon Sep 17 00:00:00 2001
+From: SotrForgotten <i@omc.hk>
+Date: Wed, 27 Jul 2016 23:36:12 +0800
+Subject: [PATCH] SPIGOT-1543: Return combined slots for
+ PlayerInventory.getContents
+
+
+diff --git a/src/main/java/net/minecraft/server/PlayerInventory.java b/src/main/java/net/minecraft/server/PlayerInventory.java
+index 76fa51d..d2e9b85 100644
+--- a/src/main/java/net/minecraft/server/PlayerInventory.java
++++ b/src/main/java/net/minecraft/server/PlayerInventory.java
+@@ -23,7 +23,10 @@ public class PlayerInventory implements IInventory {
+     private int maxStack = MAX_STACK;
+ 
+     public ItemStack[] getContents() {
+-        return this.items;
++        ItemStack[] combined = new ItemStack[items.length + armor.length];
++        System.arraycopy(items, 0, combined, 0, items.length);
++        System.arraycopy(armor, 0, combined, items.length, armor.length);
++        return combined;
+     }
+ 
+     public ItemStack[] getArmorContents() {
+-- 
+2.8.2.windows.1
+

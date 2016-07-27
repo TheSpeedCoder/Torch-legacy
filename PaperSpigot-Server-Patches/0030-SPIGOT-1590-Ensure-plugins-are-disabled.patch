@@ -1,0 +1,25 @@
+From 85cd11ca6dccce76c16fff3cbb2780df1b4e373d Mon Sep 17 00:00:00 2001
+From: SotrForgotten <i@omc.hk>
+Date: Wed, 27 Jul 2016 23:39:14 +0800
+Subject: [PATCH] SPIGOT-1590: Ensure plugins are disabled.
+
+
+diff --git a/src/main/java/net/minecraft/server/MinecraftServer.java b/src/main/java/net/minecraft/server/MinecraftServer.java
+index d7da8d5..9e2c79c 100644
+--- a/src/main/java/net/minecraft/server/MinecraftServer.java
++++ b/src/main/java/net/minecraft/server/MinecraftServer.java
+@@ -449,6 +449,11 @@ public abstract class MinecraftServer implements Runnable, ICommandListener, IAs
+         // CraftBukkit end
+         if (!this.N) {
+             MinecraftServer.LOGGER.info("Stopping server");
++			// CraftBukkit start
++        if (this.server != null) {
++            this.server.disablePlugins();
++        }
++        // CraftBukkit end
+             SpigotTimings.stopServer(); // Spigot
+ 
+             // CraftBukkit start
+-- 
+2.8.2.windows.1
+

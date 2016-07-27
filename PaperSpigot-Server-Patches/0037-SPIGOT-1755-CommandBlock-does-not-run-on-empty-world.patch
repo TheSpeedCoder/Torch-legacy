@@ -1,0 +1,25 @@
+From 2f0259eefa0839fab1f373438f81cb791f0f4c35 Mon Sep 17 00:00:00 2001
+From: SotrForgotten <i@omc.hk>
+Date: Wed, 27 Jul 2016 23:58:19 +0800
+Subject: [PATCH] SPIGOT-1755: CommandBlock does not run on empty world
+
+
+diff --git a/src/main/java/net/minecraft/server/CommandBlockListenerAbstract.java b/src/main/java/net/minecraft/server/CommandBlockListenerAbstract.java
+index 7820257..0780c4f 100644
+--- a/src/main/java/net/minecraft/server/CommandBlockListenerAbstract.java
++++ b/src/main/java/net/minecraft/server/CommandBlockListenerAbstract.java
+@@ -142,11 +142,6 @@ public abstract class CommandBlockListenerAbstract implements ICommandListener {
+             return 0;
+         }
+ 
+-        // If the world has no players don't run
+-        if (sender.getWorld().players.isEmpty()) {
+-            return 0;
+-        }
+-
+         // Handle vanilla commands;
+         org.bukkit.command.Command commandBlockCommand = commandMap.getCommand(args[0]);
+         if (sender.getWorld().getServer().getCommandBlockOverride(args[0])) {
+-- 
+2.8.2.windows.1
+

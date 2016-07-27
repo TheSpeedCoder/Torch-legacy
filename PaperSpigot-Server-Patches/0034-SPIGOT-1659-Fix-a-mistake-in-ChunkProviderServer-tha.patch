@@ -1,0 +1,45 @@
+From 1a0ecc56f6bc839932ea886987ef4c93ebc38407 Mon Sep 17 00:00:00 2001
+From: SotrForgotten <i@omc.hk>
+Date: Wed, 27 Jul 2016 23:45:10 +0800
+Subject: [PATCH] SPIGOT-1659: Fix a mistake in ChunkProviderServer that
+ sometimes caused recursive chunk loads
+
+
+diff --git a/src/main/java/net/minecraft/server/ChunkProviderServer.java b/src/main/java/net/minecraft/server/ChunkProviderServer.java
+index 9753401..3e35c3d 100644
+--- a/src/main/java/net/minecraft/server/ChunkProviderServer.java
++++ b/src/main/java/net/minecraft/server/ChunkProviderServer.java
+@@ -150,8 +150,10 @@ public class ChunkProviderServer implements IChunkProvider {
+         return chunk;
+     }
+     public Chunk originalGetChunkAt(int i, int j) {
+-        this.unloadQueue.remove(LongHash.toLong(i, j)); // TacoSpigot - directly invoke LongHash
+-        Chunk chunk = (Chunk) this.chunks.get(LongHash.toLong(i, j));
++		long hash = LongHash.toLong(i, j);
++        this.unloadQueue.remove(hash); // TacoSpigot - directly invoke LongHash
++        Chunk chunk = this.chunks.get(hash);
++        Chunk chunk = (Chunk) this.chunks.get(hash);
+         boolean newChunk = false;
+         // CraftBukkit end
+ 
+@@ -169,7 +171,7 @@ public class ChunkProviderServer implements IChunkProvider {
+                         CrashReportSystemDetails crashreportsystemdetails = crashreport.a("Chunk to be generated");
+ 
+                         crashreportsystemdetails.a("Location", (Object) String.format("%d,%d", new Object[] { Integer.valueOf(i), Integer.valueOf(j)}));
+-                        crashreportsystemdetails.a("Position hash", (Object) Long.valueOf(LongHash.toLong(i, j))); // CraftBukkit - Use LongHash
++                        crashreportsystemdetails.a("Position hash", (Object) Long.valueOf(hash)); // CraftBukkit - Use LongHash
+                         crashreportsystemdetails.a("Generator", (Object) this.chunkProvider.getName());
+                         throw new ReportedException(crashreport);
+                     }
+@@ -177,7 +179,7 @@ public class ChunkProviderServer implements IChunkProvider {
+                 newChunk = true; // CraftBukkit
+             }
+ 
+-            this.chunks.put(LongHash.toLong(i, j), chunk);
++            this.chunks.put(hash, chunk);
+             
+             chunk.addEntities();
+             
+-- 
+2.8.2.windows.1
+

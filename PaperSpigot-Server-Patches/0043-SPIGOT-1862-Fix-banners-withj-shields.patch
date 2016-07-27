@@ -1,0 +1,36 @@
+From 6a3675f6674363e3a71c8e02227657ead5aed28d Mon Sep 17 00:00:00 2001
+From: SotrForgotten <i@omc.hk>
+Date: Thu, 28 Jul 2016 00:12:32 +0800
+Subject: [PATCH] SPIGOT-1862: Fix banners withj shields.
+
+
+diff --git a/src/main/java/org/bukkit/craftbukkit/block/CraftBanner.java b/src/main/java/org/bukkit/craftbukkit/block/CraftBanner.java
+index f233b7a..f3856d9 100644
+--- a/src/main/java/org/bukkit/craftbukkit/block/CraftBanner.java
++++ b/src/main/java/org/bukkit/craftbukkit/block/CraftBanner.java
+@@ -96,7 +96,7 @@ public class CraftBanner extends CraftBlockState implements Banner {
+ 
+     @Override
+     public boolean update(boolean force, boolean applyPhysics) {
+-        boolean result = super.update(force, applyPhysics);
++        boolean result = (isPlaced()) ? super.update(force, applyPhysics) : true;
+ 
+         if (result) {
+             banner.color = base.getDyeData();
+diff --git a/src/main/java/org/bukkit/craftbukkit/inventory/CraftMetaBlockState.java b/src/main/java/org/bukkit/craftbukkit/inventory/CraftMetaBlockState.java
+index d60686d..2b21074 100644
+--- a/src/main/java/org/bukkit/craftbukkit/inventory/CraftMetaBlockState.java
++++ b/src/main/java/org/bukkit/craftbukkit/inventory/CraftMetaBlockState.java
+@@ -185,6 +185,9 @@ public class CraftMetaBlockState extends CraftMetaItem implements BlockStateMeta
+ 
+     @Override
+     public BlockState getBlockState() {
++		if (blockEntityTag != null && material == Material.SHIELD) {
++            blockEntityTag.setString("id", "Banner"); // Hack
++        }
+         TileEntity te = blockEntityTag == null ? null : TileEntity.c(blockEntityTag);
+ 
+         switch (material) {
+-- 
+2.8.2.windows.1
+

@@ -1,0 +1,24 @@
+From 219b1c769d80120e3ebcdd55d7034220e4bfad26 Mon Sep 17 00:00:00 2001
+From: SotrForgotten <i@omc.hk>
+Date: Thu, 28 Jul 2016 00:16:00 +0800
+Subject: [PATCH] SPIGOT-1856 / SPIGOT-1920: Fix Statistic.DROP not returning
+ value when provided with a Material
+
+
+diff --git a/src/main/java/org/bukkit/craftbukkit/CraftStatistic.java b/src/main/java/org/bukkit/craftbukkit/CraftStatistic.java
+index b6241da..f9d2e88 100644
+--- a/src/main/java/org/bukkit/craftbukkit/CraftStatistic.java
++++ b/src/main/java/org/bukkit/craftbukkit/CraftStatistic.java
+@@ -112,6 +112,9 @@ public class CraftStatistic {
+             if (stat == Statistic.BREAK_ITEM) {
+                 return StatisticList.BREAK_ITEM_COUNT[material.getId()];
+             }
++			if (stat == Statistic.DROP) {
++                return StatisticList.e(CraftMagicNumbers.getItem(material)); // PAIL: getDropItemStatistic
++            }
+         } catch (ArrayIndexOutOfBoundsException e) {
+             return null;
+         }
+-- 
+2.8.2.windows.1
+

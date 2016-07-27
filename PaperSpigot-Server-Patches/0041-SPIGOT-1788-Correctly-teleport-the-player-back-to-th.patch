@@ -1,0 +1,23 @@
+From c2e3f358d2bceaeeb4c1fa696882c8a617000450 Mon Sep 17 00:00:00 2001
+From: SotrForgotten <i@omc.hk>
+Date: Thu, 28 Jul 2016 00:09:12 +0800
+Subject: [PATCH] SPIGOT-1788: Correctly teleport the player back to their old
+ location
+
+
+diff --git a/src/main/java/net/minecraft/server/PlayerConnection.java b/src/main/java/net/minecraft/server/PlayerConnection.java
+index 57a0543..e825196 100644
+--- a/src/main/java/net/minecraft/server/PlayerConnection.java
++++ b/src/main/java/net/minecraft/server/PlayerConnection.java
+@@ -277,7 +277,7 @@ public class PlayerConnection implements PacketListenerPlayIn, IUpdatePlayerList
+ 
+                         // If the event is cancelled we move the player back to their old location.
+                         if (event.isCancelled()) {
+-                            this.player.playerConnection.sendPacket(new PacketPlayOutPosition(from.getX(), from.getY(), from.getZ(), from.getYaw(), from.getPitch(), Collections.<PacketPlayOutPosition.EnumPlayerTeleportFlags>emptySet()));
++                            teleport(from);
+                             return;
+                         }
+ 
+-- 
+2.8.2.windows.1
+

@@ -1,0 +1,31 @@
+From 991542518937b87e9b5bb05cb0623b9cbed2fa9f Mon Sep 17 00:00:00 2001
+From: SotrForgotten <i@omc.hk>
+Date: Wed, 27 Jul 2016 23:58:59 +0800
+Subject: [PATCH] SPIGOT-1772: Use correct statistics for entities
+
+
+diff --git a/src/main/java/org/bukkit/craftbukkit/CraftStatistic.java b/src/main/java/org/bukkit/craftbukkit/CraftStatistic.java
+index 3341c99..b6241da 100644
+--- a/src/main/java/org/bukkit/craftbukkit/CraftStatistic.java
++++ b/src/main/java/org/bukkit/craftbukkit/CraftStatistic.java
+@@ -119,10 +119,15 @@ public class CraftStatistic {
+     }
+ 
+     public static net.minecraft.server.Statistic getEntityStatistic(org.bukkit.Statistic stat, EntityType entity) {
+-        MonsterEggInfo monsteregginfo = (MonsterEggInfo) EntityTypes.eggInfo.get(Integer.valueOf(entity.getTypeId()));
++         MonsterEggInfo monsteregginfo = (MonsterEggInfo) EntityTypes.eggInfo.get(entity.getName());
+ 
+         if (monsteregginfo != null) {
+-            return monsteregginfo.killEntityStatistic;
++            if (stat == org.bukkit.Statistic.KILL_ENTITY) {
++                return monsteregginfo.killEntityStatistic;
++            }
++            if (stat == org.bukkit.Statistic.ENTITY_KILLED_BY) {
++                return monsteregginfo.e; // PAIL: rename
++            }
+         }
+         return null;
+     }
+-- 
+2.8.2.windows.1
+
