@@ -1,4 +1,4 @@
-From a5eb1d3ae2f378a40c447ea52ffe108facb41e97 Mon Sep 17 00:00:00 2001
+From c1d2adae012da4c7cd0fd0c25866d818f3b761e0 Mon Sep 17 00:00:00 2001
 From: SotrForgotten <i@omc.hk>
 Date: Thu, 28 Jul 2016 00:01:40 +0800
 Subject: [PATCH] SPIGOT-1749 / MC-99075: Call updateInventory as a temporary

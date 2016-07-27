@@ -1,4 +1,4 @@
-From 9610ae800244400181ba88d63ed3e2cc209feac2 Mon Sep 17 00:00:00 2001
+From a0c8368ceb266902389cfa3ca1cc96943edbb769 Mon Sep 17 00:00:00 2001
 From: SotrForgotten <i@omc.hk>
 Date: Wed, 27 Jul 2016 23:40:40 +0800
 Subject: [PATCH] SPIGOT-1610: Treat clicking on an inventory window as

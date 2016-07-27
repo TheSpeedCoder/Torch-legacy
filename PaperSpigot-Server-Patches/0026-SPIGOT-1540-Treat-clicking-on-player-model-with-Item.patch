@@ -1,4 +1,4 @@
-From 0061f1c9c82331c57875f0adc85eb112a03452ce Mon Sep 17 00:00:00 2001
+From 5cfabfafcb8fcbf6abc1165e8410dfd1f2ddbccc Mon Sep 17 00:00:00 2001
 From: SotrForgotten <i@omc.hk>
 Date: Wed, 27 Jul 2016 23:35:32 +0800
 Subject: [PATCH] SPIGOT-1540: Treat clicking on player model with ItemStack as
