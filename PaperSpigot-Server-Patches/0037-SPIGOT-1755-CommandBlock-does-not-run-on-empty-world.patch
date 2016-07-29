@@ -1,4 +1,4 @@
-From 6eaea91455d22738967e1433fc65a55abffdb3a0 Mon Sep 17 00:00:00 2001
+From 83fb9b2cb720d50adbbf87cdc221275fe817ae6f Mon Sep 17 00:00:00 2001
 From: SotrForgotten <i@omc.hk>
 Date: Wed, 27 Jul 2016 23:58:19 +0800
 Subject: [PATCH] SPIGOT-1755: CommandBlock does not run on empty world

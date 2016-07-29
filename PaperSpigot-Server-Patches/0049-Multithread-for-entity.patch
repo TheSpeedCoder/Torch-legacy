@@ -1,0 +1,121 @@
+From 7f683a71fd1543168dfe7be96585722a6b446956 Mon Sep 17 00:00:00 2001
+From: SotrForgotten <i@omc.hk>
+Date: Sat, 30 Jul 2016 00:01:22 +0800
+Subject: [PATCH] Multithread for entity
+
+
+diff --git a/src/main/java/net/minecraft/server/Entity.java b/src/main/java/net/minecraft/server/Entity.java
+index 2da303f..217b420 100644
+--- a/src/main/java/net/minecraft/server/Entity.java
++++ b/src/main/java/net/minecraft/server/Entity.java
+@@ -5,6 +5,7 @@ import java.util.List;
+ import java.util.Random;
+ import java.util.UUID;
+ import java.util.concurrent.Callable;
++import java.util.concurrent.RecursiveAction;
+ 
+ // CraftBukkit start
+ import org.bukkit.Bukkit;
+@@ -138,6 +139,7 @@ public abstract class Entity implements ICommandListener {
+     public final boolean defaultActivationState;
+     public long activatedTick = Integer.MIN_VALUE;
+     public boolean fromMobSpawner;
++	public boolean is_collidefence = false;
+     public void inactiveTick() { }
+     // Spigot end
+ 
+@@ -269,8 +271,22 @@ public abstract class Entity implements ICommandListener {
+     private boolean paperNetherCheck() {
+         return this.world.paperSpigotConfig.netherVoidTopDamage && this.world.getWorld().getEnvironment() == org.bukkit.World.Environment.NETHER && this.locY >= 128.0D;
+     }
+-
+-    public void K() {
++	
++	// Torch start
++	public void K() {
++		K task = new K();
++        task.fork();
++	}
++	
++	class K extends RecursiveAction {              
++        K() {}
++        @Override
++        protected void compute() {
++            K_task();
++        }
++    }
++	
++    public void K_task() {
+         this.world.methodProfiler.a("entityBaseTick");
+         if (this.vehicle != null && this.vehicle.dead) {
+             this.vehicle = null;
+@@ -317,7 +333,9 @@ public abstract class Entity implements ICommandListener {
+ 
+             if (this.portalCooldown > 0) {
+                 --this.portalCooldown;
+-            }
++			} else {
++                this.teleport_count = 0;
++			}
+ 
+             this.world.methodProfiler.b();
+         }
+@@ -790,6 +808,12 @@ public abstract class Entity implements ICommandListener {
+                     for (int k = blockposition.getZ(); k <= blockposition1.getZ(); ++k) {
+                         BlockPosition blockposition2 = new BlockPosition(i, j, k);
+                         IBlockData iblockdata = this.world.getType(blockposition2);
++						
++						if (iblockdata.getBlock() instanceof BlockFence) {
++                            this.is_collidefence = true;
++                        } else {
++                            this.is_collidefence = false;
++                        }
+ 
+                         try {
+                             iblockdata.getBlock().a(this.world, blockposition2, iblockdata, this);
+@@ -1112,11 +1136,19 @@ public abstract class Entity implements ICommandListener {
+                     d0 *= (double) (1.0F - this.U);
+                     d1 *= (double) (1.0F - this.U);
+                     if (this.passenger == null) {
+-                        this.g(-d0, 0.0D, -d1);
++                        if (this.is_collidefence) {
++                            this.g(-d0*3D, 0.0D, -d1*3D);
++                        } else {
++                            this.g(-d0, 0.0D, -d1);
++                        }
+                     }
+ 
+                     if (entity.passenger == null) {
+-                        entity.g(d0, 0.0D, d1);
++                        if (this.is_collidefence) {
++                            entity.g(d0*3D, 0.0D, d1*3D);
++                        } else {
++                            entity.g(d0, 0.0D, d1);
++                        }
+                     }
+                 }
+ 
+@@ -1929,7 +1961,7 @@ public abstract class Entity implements ICommandListener {
+     }
+ 
+     public void c(int i) {
+-        if (!this.world.isClientSide && !this.dead) {
++       if (!this.world.isClientSide && !this.dead && this.teleport_count == 0) {
+             this.world.methodProfiler.a("changeDimension");
+             MinecraftServer minecraftserver = MinecraftServer.getServer();
+             // CraftBukkit start - Move logic into new function "teleportToLocation"
+@@ -1962,8 +1994,10 @@ public abstract class Entity implements ICommandListener {
+         }
+     }
+ 
++	int teleport_count = 0;
+     public void teleportTo(Location exit, boolean portal) {
+-        if (true) {
++        if (true && teleport_count == 0) {
++            teleport_count = 1;
+             WorldServer worldserver = ((CraftWorld) getBukkitEntity().getLocation().getWorld()).getHandle();
+             WorldServer worldserver1 = ((CraftWorld) exit.getWorld()).getHandle();
+             int i = worldserver1.dimension;
+-- 
+2.8.2.windows.1
+
