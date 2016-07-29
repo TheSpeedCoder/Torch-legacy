@@ -1,0 +1,138 @@
+From cb9b6d2db9f43c9cc4f051ac4c96e83d5d75a5ae Mon Sep 17 00:00:00 2001
+From: SotrForgotten <i@omc.hk>
+Date: Fri, 29 Jul 2016 23:05:48 +0800
+Subject: [PATCH] Network queued.
+
+
+diff --git a/pom.xml b/pom.xml
+index 910999f..8461eb7 100644
+--- a/pom.xml
++++ b/pom.xml
+@@ -195,11 +195,13 @@
+                             <goal>shade</goal>
+                         </goals>
+                         <configuration>
++                            <createDependencyReducedPom>false</createDependencyReducedPom> <!-- Paper -->
+                             <relocations>
+-                                <relocation>
+-                                    <pattern>joptsimple</pattern>
+-                                    <shadedPattern>org.bukkit.craftbukkit.libs.joptsimple</shadedPattern>
+-                                </relocation>
++                                <!-- Paper - Workaround for hardcoded path lookup in dependency, easier than forking it - GH-189 -->
++                                <!--<relocation>-->
++                                    <!--<pattern>joptsimple</pattern>-->
++                                    <!--<shadedPattern>org.bukkit.craftbukkit.libs.joptsimple</shadedPattern>-->
++                                <!--</relocation>-->
+                                 <relocation>
+                                     <pattern>jline</pattern>
+                                     <shadedPattern>org.bukkit.craftbukkit.libs.jline</shadedPattern>
+@@ -251,20 +253,6 @@
+                 <artifactId>maven-compiler-plugin</artifactId>
+                 <!-- versions after this appear to be broken -->
+                 <version>3.5.1</version>
+-                <configuration>
+-                    <!-- we use the Eclipse compiler as it doesn't need a JDK -->
+-                    <compilerId>eclipse</compilerId>
+-                    <!-- source and target are ignored if this isn't true -->
+-                    <optimize>true</optimize>
+-                </configuration>
+-                <dependencies>
+-                    <!-- we need our custom version as it fixes some bugs on case sensitive file systems -->
+-                    <dependency>
+-                        <groupId>org.codehaus.plexus</groupId>
+-                        <artifactId>plexus-compiler-eclipse</artifactId>
+-                        <version>2.5.0-spigotmc</version>
+-                    </dependency>
+-                </dependencies>
+             </plugin>
+             <plugin>
+                 <groupId>org.apache.maven.plugins</groupId>
+diff --git a/src/main/java/net/minecraft/server/MinecraftServer.java b/src/main/java/net/minecraft/server/MinecraftServer.java
+index 9e2c79c..5011b3f 100644
+--- a/src/main/java/net/minecraft/server/MinecraftServer.java
++++ b/src/main/java/net/minecraft/server/MinecraftServer.java
+@@ -105,6 +105,18 @@ public abstract class MinecraftServer implements Runnable, ICommandListener, IAs
+     private long ab = az();
+ 
+     // CraftBukkit start
++	private static final Queue<FutureTask<?>> networkQueue = new java.util.concurrent.ConcurrentLinkedQueue<FutureTask<?>>();
++    static void schedulePacket(Callable<?> run) {
++        networkQueue.add(ListenableFutureTask.create(run));
++    }
++    static void processNetworkQueue() {
++        // Spigot start
++        FutureTask<?> entry;
++        int count = networkQueue.size();
++        while (count-- > 0 && (entry = networkQueue.poll()) != null) {
++            SystemUtils.a(entry, MinecraftServer.LOGGER);
++        }
++    }
+     public List<WorldServer> worlds = new ArrayList<WorldServer>();
+     public org.bukkit.craftbukkit.CraftServer server;
+     public OptionSet options;
+@@ -780,6 +792,7 @@ public abstract class MinecraftServer implements Runnable, ICommandListener, IAs
+          }
+         // Spigot end
+         SpigotTimings.minecraftSchedulerTimer.stopTiming(); // Spigot
++		processNetworkQueue(); // Paper
+ 
+         this.methodProfiler.c("levels");
+ 
+@@ -828,6 +841,7 @@ public abstract class MinecraftServer implements Runnable, ICommandListener, IAs
+ 
+                 this.methodProfiler.a("tick");
+ 
++				processNetworkQueue(); // Paper
+                 CrashReport crashreport;
+ 
+                 try {
+@@ -846,6 +860,7 @@ public abstract class MinecraftServer implements Runnable, ICommandListener, IAs
+                     throw new ReportedException(crashreport);
+                 }
+ 
++				processNetworkQueue(); // Paper
+                 try {
+                     worldserver.timings.tickEntities.startTiming(); // Spigot
+                     worldserver.tickEntities();
+@@ -863,6 +878,7 @@ public abstract class MinecraftServer implements Runnable, ICommandListener, IAs
+                 }
+ 
+                 this.methodProfiler.b();
++				processNetworkQueue(); // Paper
+                 this.methodProfiler.a("tracker");
+                 worldserver.timings.tracker.startTiming(); // Spigot
+                 worldserver.getTracker().updatePlayers();
+@@ -892,6 +908,7 @@ public abstract class MinecraftServer implements Runnable, ICommandListener, IAs
+         SpigotTimings.tickablesTimer.stopTiming(); // Spigot
+ 
+         this.methodProfiler.b();
++		processNetworkQueue(); // Paper
+     }
+ 
+     public boolean getAllowNether() {
+diff --git a/src/main/java/net/minecraft/server/PlayerConnectionUtils.java b/src/main/java/net/minecraft/server/PlayerConnectionUtils.java
+new file mode 100644
+index 0000000..a84195c
+--- /dev/null
++++ b/src/main/java/net/minecraft/server/PlayerConnectionUtils.java
+@@ -0,0 +1,17 @@
++package net.minecraft.server;
++
++public class PlayerConnectionUtils {
++
++    public static <T extends PacketListener>void ensureMainThread(final Packet<T> packet, final T t0, IAsyncTaskHandler iasynctaskhandler)
++	throws CancelledPacketHandleException {
++        if (!iasynctaskhandler.isMainThread()) {
++			// Paper start - faster network processing
++            MinecraftServer.schedulePacket(() -> {
++                packet.a(t0);
++                return null;
++            });
++			// Paper end
++            throw CancelledPacketHandleException.INSTANCE;
++        }
++    }
++}
+-- 
+2.8.2.windows.1
+
