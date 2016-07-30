@@ -1,0 +1,22 @@
+From ef0cb936dbbb282726e25d3972ca60cc9899929c Mon Sep 17 00:00:00 2001
+From: SotrForgotten <i@omc.hk>
+Date: Sat, 30 Jul 2016 17:49:50 +0800
+Subject: [PATCH] Drop sqlite version to fix compatible.
+
+
+diff --git a/pom.xml b/pom.xml
+index 8461eb7..a468d4e 100644
+--- a/pom.xml
++++ b/pom.xml
+@@ -74,7 +74,7 @@
+         <dependency>
+             <groupId>org.xerial</groupId>
+             <artifactId>sqlite-jdbc</artifactId>
+-            <version>3.8.11.2</version>
++            <version>3.7.2</version>
+             <type>jar</type>
+             <scope>compile</scope>
+         </dependency>
+-- 
+2.8.2.windows.1
+
