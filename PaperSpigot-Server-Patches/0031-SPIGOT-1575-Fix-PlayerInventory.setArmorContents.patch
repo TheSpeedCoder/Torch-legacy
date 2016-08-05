@@ -1,4 +1,4 @@
-From 0f306d5f510844430f80851f88a38a8d2083f71c Mon Sep 17 00:00:00 2001
+From 4c915e5b558e54ba119a653796fc4ed77bdcec80 Mon Sep 17 00:00:00 2001
 From: SotrForgotten <i@omc.hk>
 Date: Wed, 27 Jul 2016 23:39:55 +0800
 Subject: [PATCH] SPIGOT-1575: Fix PlayerInventory.setArmorContents
