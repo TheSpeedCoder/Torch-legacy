@@ -1,4 +1,4 @@
-From 493f53f50ef2ee284af7c052d0aa4935d8f21260 Mon Sep 17 00:00:00 2001
+From 403dc238244a9ded2f2439a617bb6549582635f6 Mon Sep 17 00:00:00 2001
 From: SotrForgotten <i@omc.hk>
 Date: Sat, 30 Jul 2016 17:49:50 +0800
 Subject: [PATCH] Drop sqlite version to fix compatible.

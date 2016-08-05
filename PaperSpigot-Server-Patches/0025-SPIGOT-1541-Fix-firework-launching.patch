@@ -1,4 +1,4 @@
-From e49a0195e8378f593241b268235acec6f033bfc3 Mon Sep 17 00:00:00 2001
+From b51c056b8240216a604bc87c20ffa09629e302e6 Mon Sep 17 00:00:00 2001
 From: SotrForgotten <i@omc.hk>
 Date: Wed, 27 Jul 2016 23:34:47 +0800
 Subject: [PATCH] SPIGOT-1541: Fix firework launching

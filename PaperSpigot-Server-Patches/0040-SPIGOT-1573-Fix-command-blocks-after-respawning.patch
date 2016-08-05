@@ -1,4 +1,4 @@
-From 37d04ff49377c92097de458c642dd62138557111 Mon Sep 17 00:00:00 2001
+From f7e7331672db4fdbc83508ee94fefb182ff2bbd0 Mon Sep 17 00:00:00 2001
 From: SotrForgotten <i@omc.hk>
 Date: Thu, 28 Jul 2016 00:06:41 +0800
 Subject: [PATCH] SPIGOT-1573: Fix command blocks after respawning

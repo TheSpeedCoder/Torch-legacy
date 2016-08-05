@@ -1,4 +1,4 @@
-From 42ef220541c72dcc64d063311a7cad7390699cf9 Mon Sep 17 00:00:00 2001
+From 940f635f76fabd6ce38b9a1f6d7a2a96740a2c5d Mon Sep 17 00:00:00 2001
 From: SotrForgotten <i@omc.hk>
 Date: Wed, 27 Jul 2016 23:39:14 +0800
 Subject: [PATCH] SPIGOT-1590: Ensure plugins are disabled.

@@ -1,4 +1,4 @@
-From 7fd50cc6eacd320ef9c9a6b05e515f609e711f4f Mon Sep 17 00:00:00 2001
+From f71d2df1375d34cbe94c864feb527d449d9f5ff6 Mon Sep 17 00:00:00 2001
 From: SotrForgotten <i@omc.hk>
 Date: Thu, 28 Jul 2016 00:16:00 +0800
 Subject: [PATCH] SPIGOT-1856 / SPIGOT-1920: Fix Statistic.DROP not returning
