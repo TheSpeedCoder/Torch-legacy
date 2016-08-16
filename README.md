@@ -12,7 +12,7 @@ that aims to fix gameplay and inconsistencies, optimizations and multi-threaded 
 
 Torch aims to be stable and fast.
 * Current developing version:  1.8.8
-* Recommanded(stable) version: R0.1.2-RELEASE
+* Recommanded(stable) version: R0.1.3-RC3
 
 (If you're running a previous Beta, upgrading is highly recommended.)
 

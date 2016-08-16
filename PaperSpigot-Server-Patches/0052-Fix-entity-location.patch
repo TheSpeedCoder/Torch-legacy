@@ -1,4 +1,4 @@
-From 8f636062b66dc618724a022a74b6d6e5fb30b7ad Mon Sep 17 00:00:00 2001
+From 86a298a18a175ec6f5d5aee8e048a3e4b1b84c4f Mon Sep 17 00:00:00 2001
 From: SotrForgotten <i@omc.hk>
 Date: Fri, 5 Aug 2016 23:30:24 +0800
 Subject: [PATCH] Fix entity location

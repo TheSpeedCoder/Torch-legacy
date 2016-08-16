@@ -1,4 +1,4 @@
-From d3423b1e39b3595b3b89da49dd08c5af667349e9 Mon Sep 17 00:00:00 2001
+From 8ab81a5dede5140e209607b6c6f799887d92704c Mon Sep 17 00:00:00 2001
 From: SotrForgotten <i@omc.hk>
 Date: Wed, 27 Jul 2016 23:37:37 +0800
 Subject: [PATCH] SPIGOT-1567: Rework setItems to set slots correctly

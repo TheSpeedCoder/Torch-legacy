@@ -1,4 +1,4 @@
-From 2b835e636c78a5d0636f5ca32be88e80f7a768bc Mon Sep 17 00:00:00 2001
+From 931cfd44ab3154c782d1a228d6acc69f3a1260e9 Mon Sep 17 00:00:00 2001
 From: SotrForgotten <i@omc.hk>
 Date: Thu, 28 Jul 2016 00:12:32 +0800
 Subject: [PATCH] SPIGOT-1862: Fix banners withj shields.
