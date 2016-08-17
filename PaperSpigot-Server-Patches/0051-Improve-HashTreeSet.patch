@@ -1,4 +1,4 @@
-From 829599ea725d1d94bbf4a7157a4f351ce5f42394 Mon Sep 17 00:00:00 2001
+From b2dfebf1efd09f6c137696017ef3ca22e6cbda8c Mon Sep 17 00:00:00 2001
 From: SotrForgotten <i@omc.hk>
 Date: Fri, 5 Aug 2016 23:12:23 +0800
 Subject: [PATCH] Improve HashTreeSet

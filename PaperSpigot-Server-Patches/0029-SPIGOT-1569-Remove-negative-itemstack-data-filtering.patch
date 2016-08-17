@@ -1,4 +1,4 @@
-From aeef358de464354dba34e69550aaf4a9acd11f4d Mon Sep 17 00:00:00 2001
+From 5939476e95cbe40d44fdc0e73898c850f3e516e9 Mon Sep 17 00:00:00 2001
 From: SotrForgotten <i@omc.hk>
 Date: Wed, 27 Jul 2016 23:38:18 +0800
 Subject: [PATCH] SPIGOT-1569: Remove negative itemstack data filtering
