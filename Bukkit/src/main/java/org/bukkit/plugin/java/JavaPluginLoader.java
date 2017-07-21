@@ -305,7 +305,7 @@ public final class JavaPluginLoader implements PluginLoader {
                     }
                 }
             };
-            if (useTimings) {
+            if (false) {
                 eventSet.add(new TimedRegisteredListener(listener, executor, eh.priority(), plugin, eh.ignoreCancelled()));
             } else {
                 eventSet.add(new RegisteredListener(listener, executor, eh.priority(), plugin, eh.ignoreCancelled()));
