@@ -13,6 +13,7 @@ dependencies:
     - git config --global user.email "circle@circleci.com"
     - git config --global user.name "CircleCI"
     - chmod +x scripts/build.sh
+    - chmod +x scripts/init.sh
     - ./scripts/build.sh --init --ci
 
 test:
