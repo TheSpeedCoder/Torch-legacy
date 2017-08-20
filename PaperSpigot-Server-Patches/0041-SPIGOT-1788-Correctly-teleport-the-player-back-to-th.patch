@@ -1,4 +1,4 @@
-From bf0cbb99a5ae53e34f738660fb94aaed89803e3f Mon Sep 17 00:00:00 2001
+From 5f7002a940f2d7e783c485ea15ee30f077ad657d Mon Sep 17 00:00:00 2001
 From: SotrForgotten <i@omc.hk>
 Date: Thu, 28 Jul 2016 00:09:12 +0800
 Subject: [PATCH] SPIGOT-1788: Correctly teleport the player back to their old

@@ -1,4 +1,4 @@
-From 085676db4bfa83509178c27b4920d94a8990262a Mon Sep 17 00:00:00 2001
+From 9683a8b843272da8f3f4a31230a69e93f465f004 Mon Sep 17 00:00:00 2001
 From: SotrForgotten <i@omc.hk>
 Date: Thu, 28 Jul 2016 00:18:00 +0800
 Subject: [PATCH] SPIGOT-1968: Use correct explosion yield

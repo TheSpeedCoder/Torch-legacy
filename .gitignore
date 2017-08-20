@@ -44,7 +44,6 @@ Paper-Server
 Paper-API
 PaperSpigot-Server
 PaperSpigot-API
-CraftBukkit
 
 #Build System
 build

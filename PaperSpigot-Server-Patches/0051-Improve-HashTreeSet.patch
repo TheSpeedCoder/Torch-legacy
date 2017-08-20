@@ -1,0 +1,105 @@
+From b2dfebf1efd09f6c137696017ef3ca22e6cbda8c Mon Sep 17 00:00:00 2001
+From: SotrForgotten <i@omc.hk>
+Date: Fri, 5 Aug 2016 23:12:23 +0800
+Subject: [PATCH] Improve HashTreeSet
+
+
+diff --git a/src/main/java/org/bukkit/craftbukkit/util/HashTreeSet.java b/src/main/java/org/bukkit/craftbukkit/util/HashTreeSet.java
+index 80a5c29..d3ba42b 100644
+--- a/src/main/java/org/bukkit/craftbukkit/util/HashTreeSet.java
++++ b/src/main/java/org/bukkit/craftbukkit/util/HashTreeSet.java
+@@ -6,10 +6,25 @@ import java.util.Iterator;
+ import java.util.Set;
+ import java.util.TreeSet;
+ 
++// Torch start
++import com.google.common.collect.Sets;
++import java.util.AbstractSet;
++import java.util.ArrayList;
++import java.util.Comparator;
++import java.util.SortedSet;
++import java.util.concurrent.ConcurrentSkipListSet;
++// Torch end
++
+ public class HashTreeSet<V> implements Set<V> {
+ 
+-    private HashSet<V> hash = new HashSet<V>();
+-    private TreeSet<V> tree = new TreeSet<V>();
++	// Torch start
++    // private HashSet<V> hash = new HashSet<V>();
++	// private TreeSet<V> tree = new TreeSet<V>();
++
++    private Set<V> hash = Sets.newConcurrentHashSet();
++    private TreeSet<V> tset = new TreeSet<V>();
++    private ConcurrentSkipListSet<V> tree = new ConcurrentSkipListSet<V>(new IterateOnlySortedSet<V>(tset));
++	// Torch end
+ 
+     public HashTreeSet() {
+ 
+@@ -110,8 +125,62 @@ public class HashTreeSet<V> implements Set<V> {
+         tree.clear();
+     }
+ 
+-    public V first() {
++    public synchronized V first() { // Torch - synchronized
+         return tree.first();
+     }
++	
++	// Torch start
++	static class IterateOnlySortedSet<E> extends AbstractSet<E> implements SortedSet<E> {
++        private final ArrayList<E> elements;
++        private final Comparator<? super E> comparator;
++
++        public IterateOnlySortedSet(SortedSet<E> source) {
++          elements = new ArrayList<>(source);
++          comparator = source.comparator();
++        }
++
++        @Override
++        public Iterator<E> iterator() {
++          return elements.iterator();
++        }
++
++        @Override
++        public int size() {
++          return elements.size();
++        }
++
++        @Override
++        public Comparator<? super E> comparator() {
++          return comparator;
++        }
++
++        // remaining methods simply throw UnsupportedOperationException
++
++        @Override
++        public SortedSet<E> subSet(E fromElement, E toElement) {
++            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
++        }
++
++        @Override
++        public SortedSet<E> headSet(E toElement) {
++            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
++        }
++
++        @Override
++        public SortedSet<E> tailSet(E fromElement) {
++            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
++        }
++
++        @Override
++        public E first() {
++            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
++        }
++
++        @Override
++        public E last() {
++            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
++        }
++    }
++	// Torch end
+ 
+ }
+-- 
+2.8.2.windows.1
+

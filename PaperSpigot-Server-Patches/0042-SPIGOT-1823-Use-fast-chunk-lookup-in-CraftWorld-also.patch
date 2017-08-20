@@ -1,4 +1,4 @@
-From 4ce8b6714721bd18888f6c24382bbcd9158c8c46 Mon Sep 17 00:00:00 2001
+From e44d644b87b7467161ba26f0e76e784e66c4d932 Mon Sep 17 00:00:00 2001
 From: SotrForgotten <i@omc.hk>
 Date: Thu, 28 Jul 2016 00:10:36 +0800
 Subject: [PATCH] SPIGOT-1823: Use fast chunk lookup in CraftWorld also
