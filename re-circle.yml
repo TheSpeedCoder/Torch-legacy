@@ -12,9 +12,9 @@ dependencies:
   override:
     - git config --global user.email "circle@circleci.com"
     - git config --global user.name "CircleCI"
-    - chmod +x scripts/build.sh
-    - ./scripts/build.sh --init --ci
+    - chmod +x build.sh
+    - ./build.sh --init --ci
 
 test:
   post:
-    - yes|cp -rf ./Torchpowered-1.11.2.jar $CIRCLE_ARTIFACTS
+    - yes|cp -rf ./Torch-1.8.8.jar $CIRCLE_ARTIFACTS
