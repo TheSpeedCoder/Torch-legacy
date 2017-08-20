@@ -1,10 +1,5 @@
 #!/bin/bash
 
-chmod +x ./remap.sh
-chmod +x ./decompile.sh
-chmod +x ./init.sh
-chmod +x ./applyPatches.sh
-
 git submodule update --init && ./remap.sh && ./decompile.sh && ./init.sh && ./applyPatches.sh
 
 # Generate paperclip jar in this stage
